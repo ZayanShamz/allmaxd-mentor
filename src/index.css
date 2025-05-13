@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Sk-Modernist", sans-serif;
+  --font-serif: "Sk-Modernist", serif;
+  --font-mono: "Sk-Modernist", monospace;
+  --bg-snowflake: #f0f0ef;
+  --color-allpurple: #5d42fe;
+  --color-allcharcoal: #1e1e1e;
+  --color-allsnowflake: #f0f0ef;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-snowflake);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-serif);
+  }
+
+  code,
+  pre {
+    font-family: var(--font-mono);
+  }
+}
+
+@layer components {
+  .form-input {
+    @apply max-sm:w-[80vw] max-md:w-[50vw]  border-[2px] border-dashed border-black rounded-md p-2 my-2 text-allpurple focus:outline-allpurple focus:shadow-xl;
+  }
+
+  .form-button {
+    @apply max-sm:w-[50vw] max-md:w-[30vw] border border-allcharcoal px-10 py-1 my-2 rounded-md bg-allpurple text-allsnowflake cursor-pointer transition duration-300 ease-in-out hover:bg-[#0022ff];
+  }
+}
