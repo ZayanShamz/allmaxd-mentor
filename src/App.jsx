@@ -9,7 +9,6 @@ import Waiting from "./pages/Waiting";
 
 function App() {
   return (
-    <BrowserRouter basename="/allmaxd-mentor">
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
@@ -17,7 +16,6 @@ function App() {
         <Route path="/professional-info" element={<ProfessionalInfo />} />
         <Route path="/waiting" element={<Waiting />} />
       </Routes>
-    </BrowserRouter>
   );
 }
 
