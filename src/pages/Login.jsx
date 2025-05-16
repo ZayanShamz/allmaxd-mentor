@@ -14,8 +14,8 @@ function Login() {
 
       // Replace with actual login logic according to backend API
       if (email === "test@test.com" && password === "test") {
-        // navigate("/index"); 
         alert("Login successful");
+        navigate("/");
       } else {
           alert("Invalid credentials");
       }
@@ -42,7 +42,7 @@ function Login() {
         </form>
         {/* row 4 */}
         <div className='w-[90vw] md:w-[70vw] lg:w-[60vw] row-start-4 h-full flex justify-center items-end py-10'>
-          <span><span className="text-allcharcoal">Not Yet a Mentor?</span> <Link to="/signup" className="text-allpurple hover:underline focus:underline">Sign Up</Link></span>
+          <span><span className="text-allcharcoal">Not Yet a Mentor?</span> <Link to="signup" className="text-allpurple hover:underline focus:underline">Sign Up</Link></span>
         </div>
       </div>
     </>

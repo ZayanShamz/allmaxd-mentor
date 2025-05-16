@@ -60,7 +60,7 @@ function ProfessionalInfo() {
             else if (newErrors.designation && designationRef.current) designationRef.current.focus();
             else if (newErrors.duration && durationRef.current) durationRef.current.focus();
         } else {
-            navigate("/waiting");
+            navigate("waiting");
         }
     };
 

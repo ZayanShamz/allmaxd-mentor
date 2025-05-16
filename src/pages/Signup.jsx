@@ -47,7 +47,7 @@ function Signup() {
       }
     
       if (Object.keys(newErrors).length === 0) {
-        navigate("/personal-info");
+        navigate("personal-info");
       }
   };
   
