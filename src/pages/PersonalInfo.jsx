@@ -70,7 +70,7 @@ function PersonalInfo() {
         addressRef.current.focus();
       }
     } else {
-      navigate("professional-info");
+      navigate("/professional-info");
     }
   };
   
