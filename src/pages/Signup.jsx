@@ -62,7 +62,7 @@ function Signup() {
         <div className="row-span-3 w-[90vw] md:w-[70vw] lg:w-[60vw] grid grid-rows-[auto,1fr] items-center">
           
           {/* Logo Section */}
-          <div className="h-full flex justify-center items-center overflow-hidden">
+          <div className="h-full flex justify-center items-center overflow-hidden z-0">
             <div className="w-[80%] sm:w-[60%] md:w-[60%] lg:w-[40%] max-w-[666px] h-auto aspect-[666/375] relative">
               <img
                 className="w-full h-full object-contain absolute inset-0"
@@ -73,10 +73,7 @@ function Signup() {
           </div>
 
           {/* Form Section */}
-          <form
-            className="w-full grid grid-rows-5 items-center"
-            onSubmit={handleSubmit}
-          >
+          <form className="w-full grid grid-rows-5 items-center z-10" onSubmit={handleSubmit}>
             <div className="flex justify-center items-center w-full">
               <input
                 type="text"

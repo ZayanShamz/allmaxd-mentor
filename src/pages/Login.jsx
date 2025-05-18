@@ -26,10 +26,10 @@ function Login() {
       <div className="grid grid-rows-4 justify-center items-center h-dvh">
         {/* row 1-2 */}
         <div className='w-[90vw] md:w-[70vw] lg:w-[60vw] row-span-2 flex h-full justify-center items-center'>
-          <img src={LogoPurple} alt="AllMax'd Logo" className="scale-100 object-contain p-5"/>
+          <img src={LogoPurple} alt="AllMax'd Logo" className="scale-100 object-contain p-5 z-0"/>
         </div>
         {/* row 3 */}
-        <form className='w-[90vw] md:w-[70vw] lg:w-[60vw] row-start-3 grid grid-rows-3 items-center' onSubmit={handleLogin}>
+        <form className='w-[90vw] md:w-[70vw] lg:w-[60vw] row-start-3 grid grid-rows-3 items-center z-10' onSubmit={handleLogin}>
           <div className='flex justify-center items-center w-full'>
             <input 
               type="text" 
