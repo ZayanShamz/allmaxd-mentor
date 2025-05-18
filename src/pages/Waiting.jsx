@@ -4,19 +4,19 @@ import WaitingImage from '../assets/images/waiting.png'
 function Waiting() {
   return (
     <>
-      <div className='flex justify-center h-screen py-3'>
+      <div className='flex justify-center h-dvh py-3'>
         <div className='w-[90vw] md:w-[70vw] lg:w-[60vw] grid grid-rows-5 items-center justify-center'>
           {/* row 1 */}
           <div className='flex flex-col justify-center items-center h-full p-1.5'>
             <h1 className='text-center text-allcharcoal text-[clamp(28px,5vw,38px)] leading-8 font-bold'>Mentor Training Programme</h1>
 
             <div className='w-[90%] md:w-[70%] lg:mt-10 mt-5 flex justify-center items-center'>
-              <p className='text-center text-[clamp(12px,3vw,16px)] text-allpurple'>All Professionals are expected to complete their initial training and gain a badge from company in order to start their career with Allmax’d</p>
+              <p className='text-center text-[clamp(12px,3vw,20px)] text-allpurple leading-tight'>All Professionals are expected to complete their initial training and gain a badge from company in order to start their career with Allmax’d</p>
             </div>
           </div>
           {/* row 2 */}
           <div className='row-start-2 row-span-2 flex justify-center items-center h-full w-full'>
-            <img src={WaitingImage} alt="Waiting" className='max-md:scale-75 object-contain' />
+            <img src={WaitingImage} alt="Waiting" className='h-full object-contain py-3' />
           </div>
           {/* row 3 */}
           

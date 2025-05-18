@@ -66,14 +66,21 @@ function ProfessionalInfo() {
 
   return (
     <>
-        <div className="grid grid-rows-5 justify-center items-center h-screen">
+        <div className="grid grid-rows-5 justify-center items-center h-dvh">
             {/* row 1 */}
             <div className='w-[90vw] md:w-[70vw] lg:w-[60vw] grid grid-rows-2 h-full justify-center items-center'>
-                <div className="flex justify-center items-center">
-                    <img src={LogoTextBlack} alt="Logo" className="scale-50" />
+                <div className="h-full flex justify-center items-center overflow-hidden">
+                    <div className="w-[80%] sm:w-[60%] md:w-[60%] lg:w-[40%] max-w-[666px] h-auto aspect-[666/375] relative">
+                        <img
+                        className="w-full h-full object-contain absolute inset-0"
+                        src={LogoTextBlack}
+                        alt="AllMax'd Logo"
+                        />
+                    </div>
                 </div>
+                  
                 <div className='flex justify-center w-full'>
-                    <p className='px-3 text-[clamp(12px,3vw,16px)] text-center text-[#686868] cursor-default'>Provide Us with your professional background to know you better.</p>
+                    <p className='px-5 text-[clamp(12px,3vw,20px)] text-center text-[#686868] cursor-default'>Provide Us with your professional background to know you better.</p>
                 </div>
             </div>
             {/* row 2-5 */}
@@ -118,7 +125,7 @@ function ProfessionalInfo() {
                         value={formData.occupation} 
                         onChange={handleChange}
                       >
-                        <option value="" disabled selected>Current Occupation</option>
+                        <option value="" disabled>Current Occupation</option>
                         <option value="student">Student</option>
                         <option value="working">Working Professional</option>
                         <option value="freelancer">Freelancer</option>

@@ -77,14 +77,20 @@ function PersonalInfo() {
   
   return (
     <>
-      <div className="grid grid-rows-5 justify-center items-center h-screen">
+      <div className="grid grid-rows-5 justify-center items-center h-dvh">
         {/* row 1 */}
         <div className='w-[90vw] md:w-[70vw] lg:w-[60vw] grid grid-rows-2 h-full justify-center items-center'>
-          <div className="flex justify-center items-center">
-            <img src={LogoTextBlack} alt="AllMax'd Logo" className="scale-50" />
+          <div className="h-full flex justify-center items-center overflow-hidden">
+            <div className="w-[80%] sm:w-[60%] md:w-[60%] lg:w-[40%] max-w-[666px] h-auto aspect-[666/375] relative">
+              <img
+                className="w-full h-full object-contain absolute inset-0"
+                src={LogoTextBlack}
+                alt="AllMax'd Logo"
+              />
+            </div>
           </div>
           <div className='flex justify-center items-center w-full'>
-            <p className='px-5 text-[clamp(12px,3vw,16px)] text-center cursor-default text-[#686868]'>To setup a mentor profile you have to provide the mentioned details accurately.</p>
+            <p className='px-5 text-[clamp(12px,3vw,20px)] text-center cursor-default text-[#686868]'>To setup a mentor profile you have to provide the mentioned details accurately.</p>
           </div>
         </div>
         {/* row 2-5 */}
@@ -114,7 +120,7 @@ function PersonalInfo() {
               value={formData.gender} 
               onChange={handleChange} 
               ref={genderRef}>
-                <option value="" disabled selected>Gender</option>
+                <option value="" disabled>Gender</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
                 <option value="other">Other</option>

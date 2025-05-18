@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -15,6 +15,7 @@ function App() {
         <Route path="/personal-info" element={<PersonalInfo />} />
         <Route path="/professional-info" element={<ProfessionalInfo />} />
         <Route path="/waiting" element={<Waiting />} />
+        <Route path="*" element={<div>Page Not Found</div>} />
       </Routes>
   );
 }
