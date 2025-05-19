@@ -29,7 +29,7 @@ function Login() {
 
   return (
     <>
-      <div className="grid grid-rows-4 gap-4 justify-center items-end h-dvh">
+      <div className="grid grid-rows-[1fr, auto] justify-center items-end h-dvh">
 
         <div className="row-span-3 responsive-one grid grid-rows-[auto,1fr] items-center">
         {/* row 1-2 */}
@@ -79,7 +79,7 @@ function Login() {
           </form>
         </div>
         {/* row 4 */}
-        <div className='responsive-one row-start-4 h-full flex justify-center items-end py-10'>
+        <div className='responsive-one row-start-4 h-full flex justify-center items-end pb-10'>
           <span><span className="text-allcharcoal">Not Yet a Mentor?</span> <Link to="/signup" className="text-allpurple hover:underline focus:underline">Sign Up</Link></span>
         </div>
       </div>

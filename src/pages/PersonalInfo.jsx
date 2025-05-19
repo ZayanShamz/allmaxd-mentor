@@ -77,9 +77,9 @@ function PersonalInfo() {
   
   return (
     <>
-      <div className="grid grid-rows-5 justify-center items-start h-dvh mt-10">
+      <div className="grid grid-rows-5 justify-center items-start h-dvh">
         {/* row 1 */}
-        <div className='w-[90vw] md:w-[70vw] lg:w-[60vw] grid grid-rows-2 h-full justify-center items-center z-0'>
+        <div className='responsive-one grid grid-rows-2 h-full justify-center items-center z-0'>
           <div className="h-full flex justify-center items-center overflow-hidden">
             <div className="w-[80%] sm:w-[60%] md:w-[60%] lg:w-[40%] max-w-[666px] h-auto aspect-[666/375] relative">
               <img
@@ -94,7 +94,7 @@ function PersonalInfo() {
           </div>
         </div>
         {/* row 2-5 */}
-        <form className='w-[90vw] md:w-[70vw] lg:w-[60vw] row-start-2 row-span-4 justify-items-center z-10' onSubmit={handleSubmit}>
+        <form className='responsive-one row-start-2 row-span-4 justify-items-center z-10' onSubmit={handleSubmit}>
 
           <div className='max-sm:w-[90%] max-md:w-[60%] max-lg:w-[50%] lg:w-[35%] flex items-center w-full'>
             <p className='text-[clamp(20px,4vw,32px)] font-bold w-full whitespace-nowrap cursor-default'>Personal Details</p>
@@ -130,7 +130,7 @@ function PersonalInfo() {
           <div className='flex justify-center items-center w-full'>
             <label
               htmlFor="aadhaar"
-              className={`form-input flex items-center justify-between gap-2 cursor-pointer ${
+              className={`form-input flex items-center justify-between gap-2 pr-4 cursor-pointer ${
                 errors.aadhaar ? "border-red-500" : ""
               }`}
             >

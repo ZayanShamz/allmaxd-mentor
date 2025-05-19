@@ -63,8 +63,8 @@ function Signup() {
   };
   
   return (
-    <>
-      <div className="grid grid-rows-4 gap-4 justify-items-center items-end h-dvh">
+     <>
+      <div className="grid grid-rows-[1fr, auto] justify-items-center items-end h-dvh">
         {/* row 1-3 */}
         <div className="row-span-3 responsive-one grid grid-rows-[auto,1fr] items-center">
           
@@ -126,7 +126,7 @@ function Signup() {
                 name="password"
                 id="password"
                 placeholder="Password"
-                className="form-input pr-12" 
+                className={`form-input pr-12 ${errors.password ? "border-red-500" : ""}`} 
                 value={formData.password}
                 onChange={handleChange}
                 ref={passwordRef}
@@ -145,7 +145,7 @@ function Signup() {
         </div>
         
         {/* row 4 */}
-        <div className='responsive-one row-start-4 h-full flex justify-center items-end py-10'>
+        <div className='responsive-one row-start-4 flex justify-center items-end pb-10'>
           <span><span className="text-allcharcoal">Already a Mentor?</span> <Link to="/" className="text-allpurple hover:underline focus:underline">Login</Link></span>
         </div>
       </div>
