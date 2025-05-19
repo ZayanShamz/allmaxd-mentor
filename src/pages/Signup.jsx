@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
-import LogoTextBlack from '../assets/images/allmaxd_text_black.png'
+import LoginLogo from '../assets/images/login_logo.png'
 
 function Signup() {
 
@@ -21,10 +21,13 @@ function Signup() {
   const phoneRef = useRef(null);
   const passwordRef = useRef(null);
 
-    const handleChange = (e) => {
-      setFormData({ ...formData, [e.target.name]: e.target.value });
-      setErrors({ ...errors, [e.target.name]: "" }); 
-    };
+  
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setErrors({ ...errors, [e.target.name]: "" }); 
+  };
 
   const handleSubmit = (e) => {
       console.log("Form Data: ", formData);
@@ -54,19 +57,23 @@ function Signup() {
         navigate("/personal-info");
       }
   };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
   
   return (
     <>
       <div className="grid grid-rows-4 gap-4 justify-items-center items-end h-dvh">
         {/* row 1-3 */}
-        <div className="row-span-3 w-[90vw] md:w-[70vw] lg:w-[60vw] grid grid-rows-[auto,1fr] items-center">
+        <div className="row-span-3 responsive-one grid grid-rows-[auto,1fr] items-center">
           
           {/* Logo Section */}
           <div className="h-full flex justify-center items-center overflow-hidden z-0">
-            <div className="w-[80%] sm:w-[60%] md:w-[60%] lg:w-[40%] max-w-[666px] h-auto aspect-[666/375] relative">
+            <div className="w-[50%] sm:w-[50%] md:w-[50%] lg:w-[30%] max-w-[500px] mb-5 scale-75 h-auto aspect-[500/500] relative">
               <img
                 className="w-full h-full object-contain absolute inset-0"
-                src={LogoTextBlack}
+                src={LoginLogo}
                 alt="AllMax'd Logo"
               />
             </div>
@@ -113,16 +120,22 @@ function Signup() {
               />
             </div>
 
-            <div className="flex justify-center items-center w-full">
+            <div className="flex justify-center items-center w-full relative">
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 name="password"
                 id="password"
-                placeholder="Create a Password"
-                className={`form-input ${errors.password ? "border-red-500" : ""}`}
+                placeholder="Password"
+                className="form-input pr-12" 
                 value={formData.password}
                 onChange={handleChange}
+                ref={passwordRef}
               />
+              <span
+                className={`password-toggle ${showPassword ? 'mdi mdi-eye' : 'mdi mdi-eye-off'}`}
+                onClick={togglePasswordVisibility}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              ></span>
             </div>
 
             <div className="flex justify-center items-center">
@@ -132,7 +145,7 @@ function Signup() {
         </div>
         
         {/* row 4 */}
-        <div className='w-[90vw] md:w-[70vw] lg:w-[60vw] row-start-4 h-full flex justify-center items-end py-10'>
+        <div className='responsive-one row-start-4 h-full flex justify-center items-end py-10'>
           <span><span className="text-allcharcoal">Already a Mentor?</span> <Link to="/" className="text-allpurple hover:underline focus:underline">Login</Link></span>
         </div>
       </div>

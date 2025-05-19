@@ -77,7 +77,7 @@ function PersonalInfo() {
   
   return (
     <>
-      <div className="grid grid-rows-5 justify-center items-center h-dvh">
+      <div className="grid grid-rows-5 justify-center items-start h-dvh mt-10">
         {/* row 1 */}
         <div className='w-[90vw] md:w-[70vw] lg:w-[60vw] grid grid-rows-2 h-full justify-center items-center z-0'>
           <div className="h-full flex justify-center items-center overflow-hidden">
@@ -127,7 +127,6 @@ function PersonalInfo() {
             </select>
           </div> 
 
-          {/* working on it */}
           <div className='flex justify-center items-center w-full'>
             <label
               htmlFor="aadhaar"
@@ -138,16 +137,16 @@ function PersonalInfo() {
               {formData.aadhaar ? formData.aadhaar.name : "Upload Aadhaar"}
               {formData.aadhaar ? (
                   <button
-                  type="button"
-                  onClick={(e) => {
-                      e.preventDefault(); 
-                      e.stopPropagation();
-                      aadhaarRef.current.value = null;
-                      handleFileChange({ target: { files: [] } });
-                  }}
-                  className="text-allpurple"
+                    type="button"
+                    onClick={(e) => {
+                        e.preventDefault(); 
+                        e.stopPropagation();
+                        aadhaarRef.current.value = null;
+                        handleFileChange({ target: { files: [] } });
+                    }}
+                    className="text-allpurple"
                   >
-                  <i className="mdi mdi-close"></i>
+                    <i className="mdi mdi-close"></i>
                   </button>
               ) : (
                   <i className="mdi mdi-paperclip text-allpurple rotate-45"></i>

@@ -1,12 +1,13 @@
 import React, {useState} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
-import LogoPurple from '../assets/images/allmaxd_logo_purple1.png'
+import LoginLogo from '../assets/images/login_logo.png'
 
 function Login() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
@@ -21,45 +22,64 @@ function Login() {
       }
   };
   
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+
   return (
     <>
-      <div className="grid grid-rows-4 justify-center items-center h-dvh">
+      <div className="grid grid-rows-4 gap-4 justify-center items-end h-dvh">
+
+        <div className="row-span-3 responsive-one grid grid-rows-[auto,1fr] items-center">
         {/* row 1-2 */}
-        <div className='w-[90vw] md:w-[70vw] lg:w-[60vw] row-span-2 flex h-full justify-center items-center'>
-          <img src={LogoPurple} alt="AllMax'd Logo" className="scale-100 object-contain p-5 z-0"/>
+          <div className='h-full flex justify-center items-center overflow-hidden z-0'>
+            <div className="w-[50%] sm:w-[50%] md:w-[50%] lg:w-[30%] max-w-[500px] mb-5 scale-75 h-auto aspect-[500/500] relative">
+              <img
+                className="w-full h-full object-contain absolute inset-0"
+                src={LoginLogo}
+                alt="AllMax'd Logo"
+              />
+            </div>
+          </div>
+          
+          <form className='w-full grid grid-rows-3 items-center z-10' onSubmit={handleLogin}>
+            <div className='flex justify-center items-center w-full'>
+              <input 
+                type="text" 
+                name="email" 
+                id="email" 
+                placeholder="Email" 
+                className="form-input" 
+                value={email} 
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+
+            <div className="flex justify-center items-center w-full relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                name="password"
+                id="password"
+                placeholder="Password"
+                className="form-input pr-12" 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <span
+                className={`password-toggle ${showPassword ? 'mdi mdi-eye' : 'mdi mdi-eye-off'}`}
+                onClick={togglePasswordVisibility}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              ></span>
+            </div>
+
+            <div className='flex justify-center items-center'>
+              <button type="submit" className="form-button">Sign In</button>
+            </div>
+          </form>
         </div>
-        {/* row 3 */}
-        <form className='w-[90vw] md:w-[70vw] lg:w-[60vw] row-start-3 grid grid-rows-3 items-center z-10' onSubmit={handleLogin}>
-          <div className='flex justify-center items-center w-full'>
-            <input 
-              type="text" 
-              name="email" 
-              id="email" 
-              placeholder="Email" 
-              className="form-input" 
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-
-          <div className='flex justify-center items-center w-full'>
-            <input 
-              type="password" 
-              name="password" 
-              id="password" 
-              placeholder="Password" 
-              className="form-input" 
-              value={password} 
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-
-          <div className='flex justify-center items-center'>
-            <button type="submit" className="form-button">Sign In</button>
-          </div>
-        </form>
         {/* row 4 */}
-        <div className='w-[90vw] md:w-[70vw] lg:w-[60vw] row-start-4 h-full flex justify-center items-end py-10'>
+        <div className='responsive-one row-start-4 h-full flex justify-center items-end py-10'>
           <span><span className="text-allcharcoal">Not Yet a Mentor?</span> <Link to="/signup" className="text-allpurple hover:underline focus:underline">Sign Up</Link></span>
         </div>
       </div>

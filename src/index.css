@@ -40,4 +40,12 @@
   .form-button {
     @apply inline-block max-sm:w-[45%] max-md:w-[30%] max-lg:w-[20%] lg:w-[20%] w-fit border border-allcharcoal text-center py-1 my-2 rounded-md bg-allpurple text-allsnowflake cursor-pointer transition duration-300 ease-in-out hover:bg-[#0022ff];
   }
+
+  .responsive-one {
+    @apply w-[90vw] md:w-[70vw] lg:w-[60vw];
+  }
+
+  .password-toggle {
+    @apply absolute right-[8%] sm:right-[23%] md:right-[28%] lg:right-[34%] top-1/2 -translate-y-1/2 text-allpurple cursor-pointer text-xl;
+  }
 }

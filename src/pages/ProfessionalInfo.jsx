@@ -66,7 +66,7 @@ function ProfessionalInfo() {
 
   return (
     <>
-        <div className="grid grid-rows-5 justify-center items-center h-dvh">
+        <div className="grid grid-rows-5 justify-center items-start h-dvh mt-10">
             {/* row 1 */}
             <div className='w-[90vw] md:w-[70vw] lg:w-[60vw] grid grid-rows-2 h-full justify-center items-center z-0'>
                 <div className="h-full flex justify-center items-center overflow-hidden">
