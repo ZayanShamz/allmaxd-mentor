@@ -46,6 +46,17 @@
   }
 
   .password-toggle {
-    @apply absolute right-[9%] sm:right-[23%] md:right-[28%] lg:right-[35%] top-1/2 -translate-y-1/2 text-allpurple cursor-pointer text-xl;
+    @apply absolute right-[5%] sm:right-[20%] md:right-[25%] lg:right-[33%] top-1/2 -translate-y-1/2 text-allpurple cursor-pointer text-xl p-4;
+  }
+
+  .title-subtext {
+    @apply px-5 text-[clamp(12px,3vw,20px)] text-center text-[#686868] cursor-default;
+  }
+
+  .subtitle-container {
+    @apply max-sm:w-[90%] max-md:w-[60%] max-lg:w-[50%] lg:w-[35%] flex items-center w-full;
+  }
+  .subtitle-text {
+    @apply text-[clamp(20px,4vw,32px)] font-bold w-full whitespace-nowrap cursor-default;
   }
 }

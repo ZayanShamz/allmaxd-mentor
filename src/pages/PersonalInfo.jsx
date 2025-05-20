@@ -90,14 +90,14 @@ function PersonalInfo() {
             </div>
           </div>
           <div className='flex justify-center items-center w-full'>
-            <p className='px-5 text-[clamp(12px,3vw,20px)] text-center cursor-default text-[#686868]'>To setup a mentor profile you have to provide the mentioned details accurately.</p>
+            <p className='title-subtext'>To setup a mentor profile you have to provide the mentioned details accurately.</p>
           </div>
         </div>
         {/* row 2-5 */}
         <form className='responsive-one row-start-2 row-span-4 justify-items-center z-10' onSubmit={handleSubmit}>
 
-          <div className='max-sm:w-[90%] max-md:w-[60%] max-lg:w-[50%] lg:w-[35%] flex items-center w-full'>
-            <p className='text-[clamp(20px,4vw,32px)] font-bold w-full whitespace-nowrap cursor-default'>Personal Details</p>
+          <div className='subtitle-container'>
+            <p className='subtitle-text'>Personal Details</p>
           </div>
 
           <div className='flex justify-center items-center w-full'>

@@ -5,7 +5,7 @@ function Waiting() {
   return (
     <>
       <div className='flex justify-center h-dvh py-3'>
-        <div className='w-[90vw] md:w-[70vw] lg:w-[60vw] grid grid-rows-5 items-center justify-center'>
+        <div className='responsive-one grid grid-rows-5 items-center justify-center'>
           {/* row 1 */}
           <div className='flex flex-col justify-center items-center h-full p-1.5'>
             <h1 className='text-center text-allcharcoal text-[clamp(28px,5vw,38px)] leading-8 font-bold'>Mentor Training Programme</h1>

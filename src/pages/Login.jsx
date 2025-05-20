@@ -29,7 +29,7 @@ function Login() {
 
   return (
     <>
-      <div className="grid grid-rows-[1fr, auto] justify-center items-end h-dvh">
+      <div className="grid grid-rows-[auto, min-content] justify-center items-center h-dvh">
 
         <div className="row-span-3 responsive-one grid grid-rows-[auto,1fr] items-center">
         {/* row 1-2 */}

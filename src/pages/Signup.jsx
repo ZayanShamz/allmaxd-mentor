@@ -64,12 +64,12 @@ function Signup() {
   
   return (
      <>
-      <div className="grid grid-rows-[1fr, auto] justify-items-center items-end h-dvh">
+      <div className="grid grid-rows-[1fr, auto] justify-items-center h-dvh">
         {/* row 1-3 */}
         <div className="row-span-3 responsive-one grid grid-rows-[auto,1fr] items-center">
           
           {/* Logo Section */}
-          <div className="h-full flex justify-center items-center overflow-hidden z-0">
+          <div className="h-full flex justify-center items-end overflow-hidden z-0">
             <div className="w-[50%] sm:w-[50%] md:w-[50%] lg:w-[30%] max-w-[500px] mb-5 scale-75 h-auto aspect-[500/500] relative">
               <img
                 className="w-full h-full object-contain absolute inset-0"

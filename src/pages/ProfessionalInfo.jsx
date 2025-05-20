@@ -80,14 +80,14 @@ function ProfessionalInfo() {
                 </div>
                   
                 <div className='flex justify-center w-full'>
-                    <p className='px-5 text-[clamp(12px,3vw,20px)] text-center text-[#686868] cursor-default'>Provide Us with your professional background to know you better.</p>
+                    <p className='title-subtext'>Provide Us with your professional background to know you better.</p>
                 </div>
             </div>
             {/* row 2-5 */}
               <form className='responsive-one max-md:mt-3 row-start-2 row-span-4 justify-items-center z-10' onSubmit={handleSubmit}>
                   
-                <div className='max-sm:w-[90%] max-md:w-[60%] max-lg:w-[50%] lg:w-[35%] flex items-center w-full'>
-                    <p className='text-[clamp(20px,4vw,32px)] font-bold w-full whitespace-nowrap cursor-default'>Professional Details</p>
+                <div className='subtitle-container'>
+                    <p className='subtitle-text'>Professional Details</p>
                 </div>
 
                 <div className='flex justify-center items-center w-full'>
