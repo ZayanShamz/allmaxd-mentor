@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-
+import axios from 'axios';
 import LoginLogo from '../assets/images/login_logo.png'
 
 function Signup() {
@@ -12,7 +12,9 @@ function Signup() {
       email: "",
       phone: "",
       password: ""
-    });
+  });
+  
+  
     
   const [errors, setErrors] = useState({});
   
@@ -22,6 +24,7 @@ function Signup() {
   const passwordRef = useRef(null);
 
   
+  const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
@@ -29,33 +32,71 @@ function Signup() {
     setErrors({ ...errors, [e.target.name]: "" }); 
   };
 
-  const handleSubmit = (e) => {
-      console.log("Form Data: ", formData);
-      e.preventDefault();
-      let newErrors = {};
-    
-      if (!formData.name.trim()) newErrors.name = true;
-      if (!formData.email.trim()) newErrors.email = true;
-      if (!formData.phone.trim()) newErrors.phone = true;
-      if (!formData.password.trim()) newErrors.password = true;
-    
-      setErrors(newErrors);
-      
-      if (Object.keys(newErrors).length > 0) {
-        if (newErrors.name && nameRef.current) {
-          nameRef.current.focus();
-        } else if (newErrors.email && emailRef.current) {
-          emailRef.current.focus();
-        } else if (newErrors.phone && phoneRef.current) {
-          phoneRef.current.focus();
-        } else if (newErrors.password && passwordRef.current) {
-          passwordRef.current.focus();
-        }
-      }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    let newErrors = {};
 
-      if (Object.keys(newErrors).length === 0) {
+    if (!formData.name.trim()) newErrors.name = true;
+    if (!formData.email.trim()) newErrors.email = true;
+    if (!formData.phone.trim()) newErrors.phone = true;
+    if (!formData.password.trim()) newErrors.password = true;
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
+      if (newErrors.name && nameRef.current) nameRef.current.focus();
+      else if (newErrors.email && emailRef.current) emailRef.current.focus();
+      else if (newErrors.phone && phoneRef.current) phoneRef.current.focus();
+      else if (newErrors.password && passwordRef.current) passwordRef.current.focus();
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
+        ...formData,
+        password_confirmation: formData.password
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+
+      const responseData = response.data;
+      if (responseData.token) {
+        console.log("Signup success:", responseData);
+        alert(responseData.message);
         navigate("/personal-info");
+      } 
+
+      else if (responseData.error) {
+        let errorMessage = "Registration failed:\n";
+        
+        // Handle validation errors
+        if (typeof responseData.error === 'object') {
+          for (const [field, messages] of Object.entries(responseData.error)) {
+            errorMessage += `${field}: ${Array.isArray(messages) ? messages.join(", ") : messages}\n`;
+            console.log(`Validation error on ${field}: ${messages}`);
+          }
+        } 
+        else {
+          errorMessage += responseData.error;
+        }
+        
+        alert(errorMessage);
       }
+      // Unexpected response format
+      else {
+        alert("Unexpected response from server. Please try again.");
+      }
+        } catch (error) {
+          const errMsg = error.response?.data?.message || "Signup failed.";
+          alert(errMsg);
+    }
+    finally {
+      setIsLoading(false);
+    }
   };
 
   const togglePasswordVisibility = () => {
@@ -65,7 +106,7 @@ function Signup() {
   return (
      <>
       <div className="grid grid-rows-[1fr, auto] justify-items-center h-dvh">
-        {/* row 1-3 */}
+        {/* row 1-3 (spanning 3) */}
         <div className="row-span-3 responsive-one grid grid-rows-[auto,1fr] items-center">
           
           {/* Logo Section */}
@@ -96,7 +137,7 @@ function Signup() {
 
             <div className="flex justify-center items-center w-full">
               <input
-                type="text"
+                type="email"
                 name="email"
                 id="email"
                 placeholder="Your Email"
@@ -135,16 +176,23 @@ function Signup() {
                 className={`password-toggle ${showPassword ? 'mdi mdi-eye' : 'mdi mdi-eye-off'}`}
                 onClick={togglePasswordVisibility}
                 aria-label={showPassword ? 'Hide password' : 'Show password'}
+                role='button'
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    togglePasswordVisibility();
+                  }
+                }}
               ></span>
             </div>
 
             <div className="flex justify-center items-center">
-              <button type="submit" className="form-button">Sign Up</button>
+              <button type="submit" className="form-button" disabled={isLoading}>{isLoading ? "Submitting" : "Sign Up"}</button>
             </div>
           </form>
         </div>
         
-        {/* row 4 */}
+        {/* footer row */}
         <div className='responsive-one row-start-4 flex justify-center items-end pb-10'>
           <span><span className="text-allcharcoal">Already a Mentor?</span> <Link to="/" className="text-allpurple hover:underline focus:underline">Login</Link></span>
         </div>
