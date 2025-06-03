@@ -53,7 +53,7 @@ function Signup() {
     return res.data;
   };
 
-  const mutation = useMutation({
+  const SignUpMutation = useMutation({
     mutationFn: signupUser,
     onSuccess: (data) => {
       if (data.token) {
@@ -114,7 +114,7 @@ function Signup() {
       return;
     }
 
-    mutation.mutate(formData);
+    SignUpMutation.mutate(formData);
   };
 
   const togglePasswordVisibility = () => {
@@ -209,8 +209,8 @@ function Signup() {
             </div>
 
             <div className="flex justify-center items-center">
-              <button type="submit" className="form-button" disabled={mutation.isPending}>
-                {mutation.isPending ? "Submitting" : "Sign Up"}
+              <button type="submit" className="form-button" disabled={SignUpMutation.isPending}>
+                {SignUpMutation.isPending ? "Submitting" : "Sign Up"}
               </button>
             </div>
           </form>

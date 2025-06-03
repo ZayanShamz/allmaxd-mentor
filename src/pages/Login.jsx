@@ -2,29 +2,36 @@ import React, {useState, useRef} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import LoginLogo from '../assets/images/login_logo.png'
+import { toast } from 'react-toastify';
+import formStore from '../store/formStore';
+import { Mutation, useMutation } from '@tanstack/react-query';
 
 function Login() {
 
+  
+  const navigate = useNavigate();
+  const {setSignupData, reset } = formStore.getState();
+  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
 
   const [errors, setErrors] = useState({});
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
 
+
+  // Validate form for empty fields
   const validateForm = () => {
     const newErrors = {};
     
     if (!email.trim()) {
-      newErrors.email = 'Email is required';
+      newErrors.email = true;
       emailRef.current?.focus();
     }
     
     if (!password) {
-      newErrors.password = 'Password is required';
+      newErrors.password = true;
       if (!newErrors.email) passwordRef.current?.focus();
     }
     
@@ -32,47 +39,67 @@ function Login() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
 
-    if (!validateForm()) return;
-
-    setIsLoading(true);
-
-    try {
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
-          email,
-          password
+  const loginMutation = useMutation({
+    mutationFn: async ({ email, password }) => {
+      const loginResponse = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
+        email,
+        password,
       }, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
-      // Handle successful login
-      if (response.data.token) {
-        alert(response.data.message || 'Login successful');
-        navigate('/'); // Redirect to home for now.
-      } else {
-        // Handle unexpected response format( just in case :| )
-        alert('Login failed: Unexpected response format');
+      const token = loginResponse.data.token;
+      if (!token) {
+        throw new Error('Login failed: No token received');
       }
-      
-    } catch (error) {
-      // Handle 401 Unauthorized and other errors
-      if (error.response) {
-        if (error.response.status === 401) {
-          alert(error.response.data.message || 'Invalid credentials');
-        } else {
-          alert(error.response.data.message || 'Login failed. Please try again.');
-        }
+
+      // Fetch user info using the token
+      const userResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/user`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return { token, user: userResponse.data };
+    },
+    onSuccess: ({ token, user }) => {
+      const userStatus = user.status;
+      const phone = user.phone;
+
+      if (userStatus === 'pending') {
+        reset(); // Reset the form store state
+        setSignupData({
+          token: token,
+          phone: phone,
+        });
+        toast.dark('Fill out the remaining details');
+        navigate('/personal-info');
+      } else if (userStatus === 'in-review') {
+        toast.success('Approval in Review');
+        navigate('/waiting');
       } else {
-        alert('Network error. Please check your connection.');
+        navigate('/');
       }
-    } finally {
-      // Reset loading state
-      setIsLoading(false);
-    }
+    },
+    onError: (error) => {
+      if (error.response?.status === 401) {
+        toast.error(error.response.data.message || 'Invalid credentials');
+      } else if (error.response) {
+        toast.error(error.response.data.message || 'Login failed. Please try again.');
+      } else {
+        toast.error(error.message || 'Network error. Please check your connection.');
+      }
+    },
+  });
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) return;
+    loginMutation.mutate({ email, password });
   };
   
   const togglePasswordVisibility = () => {
@@ -160,9 +187,9 @@ function Login() {
             </div>
 
             <div className='flex justify-center items-center'>
-              <button type="submit" className="form-button" disabled={isLoading}
+              <button type="submit" className="form-button" disabled={loginMutation.isPending}
               >
-                {isLoading ? 'Signing In...' : 'Sign In'}</button>
+                {loginMutation.isPending ? 'Signing In...' : 'Sign In'}</button>
             </div>
           </form>
         </div>

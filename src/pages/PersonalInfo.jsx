@@ -100,6 +100,9 @@ function PersonalInfo() {
           <div className='flex justify-center items-center w-full'>
             <input
               type="text" 
+              inputMode="numeric"
+              pattern="[0-9]*"
+              title="Enter age in numbers"
               name="age" 
               id="age" 
               placeholder="Your Age" 
@@ -132,7 +135,9 @@ function PersonalInfo() {
 
           <div className='flex justify-center items-center w-full'>
             <input
-              type="number" 
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
               name="aadhaar" 
               id="aadhaar" 
               placeholder="Aadhaar No" 

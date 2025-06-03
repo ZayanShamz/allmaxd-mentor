@@ -64,7 +64,7 @@ const formStore = create(
     }),
     {
       name: 'form-storage', // Key for localStorage
-      partialize: (state) => ({ token: state.token }), 
+      partialize: (state) => ({ token: state.token }), // persist token
     }
   )
 );
