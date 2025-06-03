@@ -1,10 +1,13 @@
 import { useState, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import LogoTextBlack from '../assets/images/allmaxd_text_black.png'
+import formStore from '../store/formStore';
 
 function PersonalInfo() {
   
   const navigate = useNavigate();
+
+  const setPersonalInfo = formStore((state) => state.setPersonalInfo);
 
   const [formData, setFormData] = useState({
       age: "",
@@ -30,13 +33,7 @@ function PersonalInfo() {
       setFormData({ ...formData, [e.target.name]: e.target.value });
       setErrors({ ...errors, [e.target.name]: "" }); 
   };
-
-  const handleFileChange = (e) => {
-      const file = e.target.files[0];
-      setFormData({ ...formData, aadhaar: file });
-      setErrors({ ...errors, aadhaar: "" });
-  };
-    
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -44,15 +41,14 @@ function PersonalInfo() {
   
     if (!formData.age.trim()) newErrors.age = true;
     if (!formData.gender.trim()) newErrors.gender = true;
-    if (!formData.aadhaar) newErrors.aadhaar = true; 
+    if (!formData.aadhaar.trim()) newErrors.aadhaar = true; 
     if (!formData.state.trim()) newErrors.state = true;
     if (!formData.district.trim()) newErrors.district = true;
     if (!formData.city.trim()) newErrors.city = true;
     if (!formData.address.trim()) newErrors.address = true;
 
-  
     setErrors(newErrors);
-  
+
     if (Object.keys(newErrors).length > 0) {
       if (newErrors.age && ageRef.current) {
         ageRef.current.focus();
@@ -70,6 +66,7 @@ function PersonalInfo() {
         addressRef.current.focus();
       }
     } else {
+      setPersonalInfo(formData);
       navigate("/professional-info");
     }
   };
@@ -112,11 +109,11 @@ function PersonalInfo() {
               ref={ageRef} />
           </div>
 
-          <div className='flex justify-center items-center w-full'>
+          <div className='flex justify-center items-center w-full relative'>
             <select
               name="gender" 
               id="gender" 
-              className={`form-input cursor-pointer ${errors.gender ? "border-red-500" : ""}`}
+              className={`form-input cursor-pointer appearance-none z-10 ${errors.gender ? "border-red-500" : ""}`}
               value={formData.gender} 
               onChange={handleChange} 
               ref={genderRef}>
@@ -125,43 +122,27 @@ function PersonalInfo() {
                 <option value="female">Female</option>
                 <option value="other">Other</option>
             </select>
+            <span
+              className="password-toggle z-0"
+              aria-hidden="true"
+            >
+              <i className="mdi mdi-chevron-down"></i>
+            </span>
           </div> 
 
           <div className='flex justify-center items-center w-full'>
-            <label
-              htmlFor="aadhaar"
-              className={`form-input flex items-center justify-between gap-2 pr-4 cursor-pointer ${
-                errors.aadhaar ? "border-red-500" : ""
-              }`}
-            >
-              {formData.aadhaar ? formData.aadhaar.name : "Upload Aadhaar"}
-              {formData.aadhaar ? (
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                        e.preventDefault(); 
-                        e.stopPropagation();
-                        aadhaarRef.current.value = null;
-                        handleFileChange({ target: { files: [] } });
-                    }}
-                    className="text-allpurple"
-                  >
-                    <i className="mdi mdi-close"></i>
-                  </button>
-              ) : (
-                  <i className="mdi mdi-paperclip text-allpurple rotate-45"></i>
-              )}
-            </label>
             <input
-              type="file"
-              name="aadhaar"
-              id="aadhaar"
-              className="hidden"
-              onChange={handleFileChange}
+              type="number" 
+              name="aadhaar" 
+              id="aadhaar" 
+              placeholder="Aadhaar No" 
+              className={`form-input ${errors.aadhaar ? "border-red-500" : ""}`} 
+              value={formData.aadhaar} 
+              onChange={handleChange} 
               ref={aadhaarRef}
             />
           </div>
-          
+
           <div className='flex justify-center items-center w-full'>
             <input
               type="text"

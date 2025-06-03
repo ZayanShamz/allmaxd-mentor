@@ -2,10 +2,16 @@ import React, { useState, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import LoginLogo from '../assets/images/login_logo.png'
+import { useMutation } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
+import formStore from '../store/formStore';
+
 
 function Signup() {
 
   const navigate = useNavigate();
+
+  const setSignupData = formStore((state) => state.setSignupData);
 
   const [formData, setFormData] = useState({
       name: "",
@@ -15,22 +21,79 @@ function Signup() {
   });
   
   
-    
-  const [errors, setErrors] = useState({});
-  
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const phoneRef = useRef(null);
   const passwordRef = useRef(null);
 
-  
-  const [isLoading, setIsLoading] = useState(false);
+  const fieldRefs = {
+  name: nameRef,
+  email: emailRef,
+  phone: phoneRef,
+  password: passwordRef
+};
+   
+  const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
 
+  // Handle input changes
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setErrors({ ...errors, [e.target.name]: "" }); 
   };
+
+
+  const signupUser = async (formData) => {
+    const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
+      ...formData,
+      password_confirmation: formData.password
+    }, {
+      headers: { 'Content-Type': 'application/json' }
+    });
+    return res.data;
+  };
+
+  const mutation = useMutation({
+    mutationFn: signupUser,
+    onSuccess: (data) => {
+      if (data.token) {
+        console.log("Signup success:", data);
+        toast.success(data.message);
+        setSignupData({
+          token: data.token,
+          phone: data.user.phone,
+        });
+        console.log("Token:", data.token);
+        navigate('/personal-info');
+      } else if (data.error) {
+        let msg = "";
+        let ErrorField = null
+        if (typeof data.error === 'object') {
+          for (const [field , val] of Object.entries(data.error)) {
+            msg += `${Array.isArray(val) ? val.join(", ") : val}\n`;
+
+            if (!ErrorField && fieldRefs[field]) {
+              ErrorField = fieldRefs[field];
+        }
+          }
+        } else {
+          msg += data.error;
+        }
+        toast.error(msg || "Validation failed.");
+
+         // Focus on the first invalid input
+        if (ErrorField?.current) {
+          ErrorField.current.focus();
+        }
+      } else {
+        toast.error("Unexpected response. Try again.");
+      }
+    },
+    onError: (error) => {
+      const errMsg = error.response?.data?.message || "Something went wrong.";
+      toast.error(errMsg);
+    }
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,52 +114,7 @@ function Signup() {
       return;
     }
 
-    setIsLoading(true);
-
-    try {
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
-        ...formData,
-        password_confirmation: formData.password
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      });
-
-      const responseData = response.data;
-      if (responseData.token) {
-        console.log("Signup success:", responseData);
-        alert(responseData.message);
-        navigate("/personal-info");
-      } 
-
-      else if (responseData.error) {
-        let errorMessage = "Registration failed:\n";
-        
-        // Handle validation errors
-        if (typeof responseData.error === 'object') {
-          for (const [field, messages] of Object.entries(responseData.error)) {
-            errorMessage += `${field}: ${Array.isArray(messages) ? messages.join(", ") : messages}\n`;
-            console.log(`Validation error on ${field}: ${messages}`);
-          }
-        } 
-        else {
-          errorMessage += responseData.error;
-        }
-        
-        alert(errorMessage);
-      }
-      // Unexpected response format
-      else {
-        alert("Unexpected response from server. Please try again.");
-      }
-        } catch (error) {
-          const errMsg = error.response?.data?.message || "Signup failed.";
-          alert(errMsg);
-    }
-    finally {
-      setIsLoading(false);
-    }
+    mutation.mutate(formData);
   };
 
   const togglePasswordVisibility = () => {
@@ -129,6 +147,7 @@ function Signup() {
                 id="name"
                 placeholder="Full Name"
                 className={`form-input ${errors.name ? "border-red-500" : ""}`}
+                aria-invalid={errors.name ? "true" : "false"}
                 value={formData.name}
                 onChange={handleChange}
                 ref={nameRef}
@@ -142,6 +161,7 @@ function Signup() {
                 id="email"
                 placeholder="Your Email"
                 className={`form-input ${errors.email ? "border-red-500" : ""}`}
+                aria-invalid={errors.email ? "true" : "false"}
                 value={formData.email}
                 onChange={handleChange}
                 ref={emailRef}
@@ -155,6 +175,7 @@ function Signup() {
                 id="phone"
                 placeholder="Your Phone No"
                 className={`form-input ${errors.phone ? "border-red-500" : ""}`}
+                aria-invalid={errors.phone ? "true" : "false"}
                 value={formData.phone}
                 onChange={handleChange}
                 ref={phoneRef}
@@ -168,6 +189,7 @@ function Signup() {
                 id="password"
                 placeholder="Password"
                 className={`form-input pr-12 ${errors.password ? "border-red-500" : ""}`} 
+                aria-invalid={errors.password ? "true" : "false"}
                 value={formData.password}
                 onChange={handleChange}
                 ref={passwordRef}
@@ -187,7 +209,9 @@ function Signup() {
             </div>
 
             <div className="flex justify-center items-center">
-              <button type="submit" className="form-button" disabled={isLoading}>{isLoading ? "Submitting" : "Sign Up"}</button>
+              <button type="submit" className="form-button" disabled={mutation.isPending}>
+                {mutation.isPending ? "Submitting" : "Sign Up"}
+              </button>
             </div>
           </form>
         </div>

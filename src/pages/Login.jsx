@@ -104,6 +104,7 @@ function Login() {
                 id="email" 
                 placeholder="Email" 
                 className={`form-input ${errors.email ? 'border-red-500' : ''}`}  
+                aria-invalid={errors.email ? "true" : "false"}
                 value={email} 
                 onChange={(e) => {
                   setEmail(e.target.value);
@@ -128,6 +129,7 @@ function Login() {
                   id="password"
                   placeholder="Password"
                   className={`form-input pr-12 ${errors.password ? 'border-red-500' : ''}`} 
+                  aria-invalid={errors.password ? "true" : "false"}
                   value={password}
                   onChange={(e) => {
                     setPassword(e.target.value);
