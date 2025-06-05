@@ -1,21 +1,24 @@
-import React, {useState, useRef} from 'react'
+import React, {useState, useRef,} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import LoginLogo from '../assets/images/login_logo.png'
 import { toast } from 'react-toastify';
 import formStore from '../store/formStore';
-import { Mutation, useMutation } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
 function Login() {
 
-  
   const navigate = useNavigate();
-  const {setSignupData, reset } = formStore.getState();
-  
+
+  // Accessing the form store state and actions
+  const { setSignupData, setUserToken, setMentorData, reset } = formStore.getState();
+
+  // State for email, password, and visibility of password
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
+  // State for form validation errors
   const [errors, setErrors] = useState({});
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
@@ -26,12 +29,12 @@ function Login() {
     const newErrors = {};
     
     if (!email.trim()) {
-      newErrors.email = true;
+      newErrors.email = 'Email is required';
       emailRef.current?.focus();
     }
     
     if (!password) {
-      newErrors.password = true;
+      newErrors.password = 'Password is required';
       if (!newErrors.email) passwordRef.current?.focus();
     }
     
@@ -39,7 +42,7 @@ function Login() {
     return Object.keys(newErrors).length === 0;
   };
 
-
+  // Mutation for login
   const loginMutation = useMutation({
     mutationFn: async ({ email, password }) => {
       const loginResponse = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
@@ -65,25 +68,46 @@ function Login() {
 
       return { token, user: userResponse.data };
     },
-    onSuccess: ({ token, user }) => {
-      const userStatus = user.status;
-      const phone = user.phone;
 
-      if (userStatus === 'pending') {
-        reset(); // Reset the form store state
-        setSignupData({
-          token: token,
-          phone: phone,
-        });
-        toast.dark('Fill out the remaining details');
-        navigate('/personal-info');
-      } else if (userStatus === 'in-review') {
-        toast.success('Approval in Review');
-        navigate('/waiting');
+    onSuccess: ({ token, user }) => {
+      const userType = user.type;
+      const phone = user.phone;
+      const userStatus = user.status;
+      // const mentorStatus = user.mentor.status
+
+      if (userType === 'mentor') {
+
+        if (userStatus === 'pending') {
+          reset(); // Reset the form store state for any existing data
+          setSignupData({ token, phone });
+          toast.dark('Fill out the remaining details');
+          navigate('/personal-info');
+        }
+
+        else if (userStatus === 'in-review') {
+          toast.info('Approval in Review');
+          navigate('/waiting');
+        }
+          
+        else if (userStatus === 'approved') {
+          const mentorData = user.mentor
+          setSignupData({ token, phone }); 
+          setMentorData(mentorData); 
+          setUserToken(token); 
+          toast.success('Login successful');
+          navigate('/home');
+        }
+          
+        else if (userStatus === 'rejected') {
+          toast.error('Your account has been rejected. Please contact support.');
+        }
       } else {
-        navigate('/');
+        toast.error('Unauthorized Login. Only mentors can log in.');
+        return;
       }
     },
+
+    // Handle errors during login
     onError: (error) => {
       if (error.response?.status === 401) {
         toast.error(error.response.data.message || 'Invalid credentials');
@@ -94,6 +118,7 @@ function Login() {
       }
     },
   });
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -106,11 +131,10 @@ function Login() {
     setShowPassword(!showPassword);
   };
 
-
   return (
     <>
       <div className="grid grid-rows-[auto, min-content] justify-center items-center h-dvh">
-      {/* row auto */}
+        {/* row auto */}
         <div className="row-span-3 responsive-one grid grid-rows-[auto,1fr] items-center">
           {/* spanning 3 rows */}
           <div className='h-full flex justify-center items-center overflow-hidden z-0'>
@@ -187,10 +211,11 @@ function Login() {
             </div>
 
             <div className='flex justify-center items-center'>
-              <button type="submit" className="form-button" disabled={loginMutation.isPending}
-              >
-                {loginMutation.isPending ? 'Signing In...' : 'Sign In'}</button>
+              <button type="submit" className="form-button" disabled={loginMutation.isPending}>
+                {loginMutation.isPending ? 'Signing In...' : 'Sign In'}
+              </button>
             </div>
+
           </form>
         </div>
         {/* footer row */}

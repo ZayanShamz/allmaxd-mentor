@@ -13,6 +13,7 @@ function Signup() {
 
   const setSignupData = formStore((state) => state.setSignupData);
 
+  // Create formData to store user input
   const [formData, setFormData] = useState({
       name: "",
       email: "",
@@ -20,18 +21,17 @@ function Signup() {
       password: ""
   });
   
-  
   const nameRef = useRef(null);
   const emailRef = useRef(null);
   const phoneRef = useRef(null);
   const passwordRef = useRef(null);
 
   const fieldRefs = {
-  name: nameRef,
-  email: emailRef,
-  phone: phoneRef,
-  password: passwordRef
-};
+    name: nameRef,
+    email: emailRef,
+    phone: phoneRef,
+    password: passwordRef
+  };
    
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
@@ -58,13 +58,13 @@ function Signup() {
     onSuccess: (data) => {
       if (data.token) {
         console.log("Signup success:", data);
-        toast.success(data.message);
+        toast.info("Account Creation Initiated");
         setSignupData({
           token: data.token,
           phone: data.user.phone,
         });
-        console.log("Token:", data.token);
         navigate('/personal-info');
+
       } else if (data.error) {
         let msg = "";
         let ErrorField = null

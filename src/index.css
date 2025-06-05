@@ -33,6 +33,8 @@
 }
 
 @layer components {
+
+  /* Form Items */
   .form-input {
     @apply max-sm:w-[90%] max-md:w-[60%] max-lg:w-[50%] lg:w-[35%] border-[2px] border-dashed border-black rounded-[10px] py-4 pl-5 my-2 text-allpurple placeholder-allpurple focus:border-dashed focus:border-allpurple focus:shadow-xl focus:outline-none focus:ring-0 transition duration-300 ease-in-out;
   }
@@ -41,22 +43,26 @@
     @apply inline-block max-sm:w-[45%] max-md:w-[30%] max-lg:w-[20%] lg:w-[20%] w-fit border border-allcharcoal text-center py-2 my-2 rounded-lg bg-allpurple text-allsnowflake cursor-pointer transition duration-300 ease-in-out hover:bg-[#0022ff];
   }
 
-  .responsive-one {
-    @apply w-[90vw] md:w-[70vw] lg:w-[60vw];
-  }
-
   .password-toggle {
     @apply absolute right-[5%] sm:right-[20%] md:right-[25%] lg:right-[33%] top-1/2 -translate-y-1/2 text-allpurple cursor-pointer text-xl p-4;
   }
 
+  .responsive-one {
+    @apply w-[90vw] md:w-[70vw] lg:w-[60vw];
+  }
+  
+  /* Responsive Text */
   .title-subtext {
     @apply px-5 text-[clamp(12px,3vw,20px)] text-center text-[#686868] cursor-default;
   }
 
-  .subtitle-container {
-    @apply max-sm:w-[90%] max-md:w-[60%] max-lg:w-[50%] lg:w-[35%] flex items-center w-full;
-  }
   .subtitle-text {
     @apply text-[clamp(20px,4vw,32px)] font-bold w-full whitespace-nowrap cursor-default;
   }
+
+  /* Responsive Containers */
+  .subtitle-container {
+    @apply max-sm:w-[90%] max-md:w-[60%] max-lg:w-[50%] lg:w-[35%] flex items-center w-full;
+  }
+  
 }

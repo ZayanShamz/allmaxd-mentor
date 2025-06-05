@@ -31,12 +31,18 @@ const formStore = create(
         social: '',
       },
 
+      // logged-in user token
+      userToken: null,
+      mentorData: null,
+
       // Actions to update state
       setSignupData: (data) => set({ token: data.token, phone: data.phone }),
       setPersonalInfo: (data) => set({ personalInfo: data }),
       setProfessionalInfo: (data) => set({ professionalInfo: data }),
+      setMentorData: (data) => set({ mentorData: data }),
+      setUserToken: (token) => set({ userToken: token }),
 
-      // Reset state after successful submission)
+      // Reset state after successful submission
       reset: () =>
         set({
           token: null,
@@ -44,7 +50,7 @@ const formStore = create(
           personalInfo: {
             age: '',
             gender: '',
-            aadhaar: null,
+            aadhaar: '',
             state: '',
             district: '',
             city: '',
@@ -57,14 +63,24 @@ const formStore = create(
             institute: '',
             designation: '',
             duration: '',
-            portfolio: null,
+            portfolio: '',
             social: '',
           },
+        }),
+      // clear userToken and Data on Logout
+      logout: () =>
+        set({
+          userToken: null,
+          mentorData: null,
         }),
     }),
     {
       name: 'form-storage', // Key for localStorage
-      partialize: (state) => ({ token: state.token }), // persist token
+      partialize: (state) => ({
+        token: state.token,
+        userToken: state.userToken,
+        mentorData: state.mentorData
+      }),
     }
   )
 );
